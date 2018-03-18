@@ -70,10 +70,19 @@ UKF::UKF() {
   ///* Weights of sigma points
   weights_ = VectorXd(2*n_aug_+1);
 
+  // Radar
   R_ = MatrixXd(n_z,n_z);
   R_ <<    std_radr_*std_radr_, 0, 0,
           0, std_radphi_*std_radphi_, 0,
           0, 0,std_radrd_*std_radrd_;
+
+  // Lidar
+   H = MatrixXd(2, 5);
+   R = MatrixXd(2, 2);
+   H << 1, 0, 0, 0, 0,
+        0, 1, 0, 0, 0;
+   R << 0.0225, 0,
+       0, 0.0225;
 }
 
 UKF::~UKF() {}
@@ -273,12 +282,6 @@ void UKF::UpdateLidar(MeasurementPackage meas_package) {
   You'll also need to calculate the lidar NIS.
   */
     
-   MatrixXd H = MatrixXd(2, 5);
-   MatrixXd R = MatrixXd(2, 2);
-   H << 1, 0, 0, 0, 0,
-        0, 1, 0, 0, 0;
-   R << 0.0225, 0,
-       0, 0.0225;
    VectorXd z = VectorXd(2);
    z(0) = meas_package.raw_measurements_(0);
    z(1) = meas_package.raw_measurements_(1);

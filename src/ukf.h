@@ -72,6 +72,8 @@ public:
   int n_z;
 
   MatrixXd R_;
+  MatrixXd H;
+  MatrixXd R;
 
   /**
    * Constructor
