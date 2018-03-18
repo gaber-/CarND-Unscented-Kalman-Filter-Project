@@ -107,7 +107,7 @@ void UKF::ProcessMeasurement(MeasurementPackage meas_package) {
         double rho = meas_package.raw_measurements_(0);
         double theta = meas_package.raw_measurements_(1);
         double rho_dot = meas_package.raw_measurements_(2);
-        x_ << rho * cos(theta), rho*sin(theta), rho_dot*cos(theta), rho_dot*sin(theta),0;
+        x_ << rho * cos(theta), rho*sin(theta), rho_dot, 0, 0;
     }
     else if (meas_package.sensor_type_ == MeasurementPackage::LASER) {
         x_(0) = meas_package.raw_measurements_(0);
