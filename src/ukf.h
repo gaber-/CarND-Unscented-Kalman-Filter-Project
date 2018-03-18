@@ -69,6 +69,9 @@ public:
 
   double previous_timestamp_;
 
+  int n_z;
+
+  MatrixXd R_;
 
   /**
    * Constructor

@@ -57,6 +57,7 @@ UKF::UKF() {
 
   ///* State dimension
   n_x_ = 5;
+  n_z = 3;
 
   ///* Augmented state dimension
   n_aug_ = 7;
@@ -68,6 +69,11 @@ UKF::UKF() {
   Xsig_pred_ = MatrixXd(n_x_, 2 * n_aug_ + 1);
   ///* Weights of sigma points
   weights_ = VectorXd(2*n_aug_+1);
+
+  R_ = MatrixXd(n_z,n_z);
+  R_ <<    std_radr_*std_radr_, 0, 0,
+          0, std_radphi_*std_radphi_, 0,
+          0, 0,std_radrd_*std_radrd_;
 }
 
 UKF::~UKF() {}
@@ -346,11 +352,7 @@ void UKF::UpdateRadar(MeasurementPackage meas_package) {
   }
 
   //add measurement noise covariance matrix
-  MatrixXd R = MatrixXd(n_z,n_z);
-  R <<    std_radr_*std_radr_, 0, 0,
-          0, std_radphi_*std_radphi_, 0,
-          0, 0,std_radrd_*std_radrd_;
-  S = S + R;
+  S = S + R_;
 
   //calculate cross correlation matrix
   VectorXd z = VectorXd(n_z);
